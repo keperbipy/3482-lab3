@@ -1,139 +1,140 @@
-***********************
-The CS:APP Data Lab
-Directions to Students
-***********************
+I. Introduction
 
-Your goal is to modify your copy of bits.c so that it passes all the
-tests in btest without violating any of the coding guidelines.
+The purpose of this assignment is to become more familiar with bit-level representations of integers and floating point numbers. You'll do this by solving a series of programming "puzzles." Many of these puzzles are quite artificial, but you'll find yourself thinking much more about bit level representations and bit operations in working your way through them.
 
+You may work with one other person on this lab assignment or work individually as you choose.  If you are working with someone else, be sure that the comments in the bits.c file you submit contain both of your names. 
 
-*********
-0. Files:
-*********
+Do NOT look for the solutions on-line.  If you do, your instructor will be quite upset with you and will give you a 0 on the lab assignment. 
 
-Makefile	- Makes btest, fshow, and ishow
-README		- This file
-bits.c		- The file you will be modifying and handing in
-bits.h		- Header file
-btest.c		- The main btest program
-  btest.h	- Used to build btest
-  decl.c	- Used to build btest
-  tests.o       - Used to build btest
-dlc*		- Rule checking compiler binary (data lab compiler)	 
-driver.pl*	- Driver program that uses btest and dlc to autograde bits.c
-Driverhdrs.pm   - Header file for optional "Beat the Prof" contest
-fshow.c		- Utility for examining floating-point representations
-ishow.c		- Utility for examining integer representations
+2. Handout Instructions
 
-***********************************************************
-1. Modifying bits.c and checking it for compliance with dlc
-***********************************************************
+You have the option of working alone or working with someone else on this lab assignment.  If you want to work with someone else then figure out who that will be before continuing.  You cannot add a person later on.
 
-IMPORTANT: Carefully read the instructions in the bits.c file before
-you start. These give the coding rules that you will need to follow if
-you want full credit.
+After you've found a teammate or decided to work alone, use a browser to log into github and then open up this page:
 
-Use the dlc compiler (./dlc) to automatically check your version of
-bits.c for compliance with the coding guidelines:
+https://classroom.github.com/g/e9iCKKUm
 
-       unix> ./dlc bits.c
+Both you and your teammate (if you have one) will visit this URL.  One of you will create the team.  The other of you will select the created team. 
 
-dlc returns silently if there are no problems with your code.
-Otherwise it prints messages that flag any problems.  Running dlc with
-the -e switch:
+Next, get into your 3482 directory on the student2 machine and perform a clone of the repository.
 
-    	unix> ./dlc -e bits.c  
+The only file you will be modifying is bits.c.  The first thing you need to do is add your name (and your partner's name, if you have one) to the comments at the top of bits.c
 
-causes dlc to print counts of the number of operators used by each function.
+The bits.c file contains a skeleton for each of the 15 programming puzzles.  Your assignment is to complete each function skeleton.
 
-Once you have a legal solution, you can test it for correctness using
-the ./btest program.
+3. The Puzzles
 
-*********************
-2. Testing with btest
-*********************
+Documentation in the bits.c file describes each of the puzzles you are to complete. You'll need to understand data representations, boolean logic, and the functionality of C operators to be able to complete the puzzles.  You are not allowed to use loops or conditionals of any type in the integer puzzles.  In addition, for the integer puzzles, you are not allowed to use any constants outside of the range of 0 to 255 (inclusive).  If you need other constant values, you'll need to "build them". For the floating point puzzles, you can use loops, integer types, any integer constants, but no floating point types.  Casting is not allowed in either type of puzzle.  See the documentation in bits.c for more details. Specifically, each function documentation lists the legal operations that you can use.
 
-The Makefile in this directory compiles your version of bits.c with
-additional code to create a program (or test harness) named btest.
+The included program fshow helps you understand the structure of floating point numbers. To compile fshow, type:
 
-To compile and run the btest program, type:
+ make
 
-    unix> make btest
-    unix> ./btest [optional cmd line args]
+You can use fshow to see what an arbitrary pattern
+represents as a floating-point number:
 
-You will need to recompile btest each time you change your bits.c
-program. When moving from one platform to another, you will want to
-get rid of the old version of btest and generate a new one.  Use the
-commands:
+ ./fshow 2080374784
 
-    unix> make clean
-    unix> make btest
+  Floating point value 2.658455992e+36
+  Bit Representation 0x7c000000, sign = 0, exponent = f8, fraction = 000000
+  Normalized.  1.0000000000 X 2^(121)
+You can also give fshow hexadecimal and floating point values, and it will decipher their bit structure.
 
-Btest tests your code for correctness by running millions of test
-cases on each function.  It tests wide swaths around well known corner
-cases such as Tmin and zero for integer puzzles, and zero, inf, and
-the boundary between denormalized and normalized numbers for floating
-point puzzles. When btest detects an error in one of your functions,
-it prints out the test that failed, the incorrect result, and the
-expected result, and then terminates the testing for that function.
+The included program ishow will show you the representation of integer values in decimal or hex.  You can give the ishow program either decimal or hexadecimal values.
 
-Here are the command line options for btest:
+% ishow -2
+Hex = 0xfffffffe,    Signed = -2,    Unsigned = 4294967294
 
-  unix> ./btest -h
-  Usage: ./btest [-hg] [-r <n>] [-f <name> [-1|-2|-3 <val>]*] [-T <time limit>]
-    -1 <val>  Specify first function argument
-    -2 <val>  Specify second function argument
-    -3 <val>  Specify third function argument
-    -f <name> Test only the named function
-    -g        Format output for autograding with no error messages
-    -h        Print this message
-    -r <n>    Give uniform weight of n for all problems
-    -T <lim>  Set timeout limit to lim
+% ishow 0xff
+Hex = 0x000000ff,    Signed = 255,    Unsigned = 255
+These puzzles can be tricky (which is what makes them fun).  Ask for hints if you need them.
 
-Examples:
+4. Evaluation
 
-  Test all functions for correctness and print out error messages:
-  unix> ./btest
+Your score will be computed out of a maximum of 70 points based on the following distribution:
 
-  Test all functions in a compact form with no error messages:
-  unix> ./btest -g
+[40] Correctness points.
+[30] Performance points.
 
-  Test function foo for correctness:
-  unix> ./btest -f foo
+Correctness points: The 15 puzzles you must solve have been given a difficulty rating between 1 and 4, such that their weighted sum totals to 40.  We will evaluate your functions using the btest program, which is described in the next section.  You will get full credit for a puzzle if it passes all of the tests performed by btest, and no credit otherwise.
 
-  Test function foo for correctness with specific arguments:
-  unix> ./btest -f foo -1 27 -2 0xf
+Performance points: Our main concern at this point in the course is that you can get the right answer.  However, we want to instill in you a sense of keeping things as short and simple as you can. Furthermore, some of the puzzles can be solved by brute force, but we want you to be more clever.  Thus, for each function we've established a maximum number of operators that you are allowed to use for each function. This limit is very generous and is designed only to catch egregiously inefficient solutions.  You will receive two points for each correct function that satisfies the operator limit.
 
-Btest does not check your code for compliance with the coding
-guidelines.  Use dlc to do that.
+5. Autograding your own work
 
-*******************
-3. Helper Programs
-*******************
+We have included some autograding tools in the handout directory --- btest, dlc, and driver.pl --- to help you check the correctness of your work.
 
-We have included the ishow and fshow programs to help you decipher
-integer and floating point representations respectively. Each takes a
-single decimal or hex number as an argument. To build them type:
+btest: This program checks the functional correctness of the functions in bits.c. To build and use it, type the following two commands:
 
-    unix> make
+make
+./btest
 
-Example usages:
+Notice that you must rebuild btest each time you modify your bits.c file.
 
-    unix> ./ishow 0x27
-    Hex = 0x00000027,	Signed = 39,	Unsigned = 39
+You'll find it helpful to work through the functions one at a time, testing each one as you go.  You can use the -f flag to instruct to test only a single function:
 
-    unix> ./ishow 27
-    Hex = 0x0000001b,	Signed = 27,	Unsigned = 27
+./btest -f isNegOne
 
-    unix> ./fshow 0x15213243
-    Floating point value 3.255334057e-26
-    Bit Representation 0x15213243, sign = 0, exponent = 0x2a, fraction = 0x213243
-    Normalized.  +1.2593463659 X 2^(-85)
+You can feed it specific function arguments using the option flags -1,  -2, and  -3:
 
-    linux> ./fshow 15213243
-    Floating point value 2.131829405e-38
-    Bit Representation 0x00e822bb, sign = 0, exponent = 0x01, fraction = 0x6822bb
-    Normalized.  +1.8135598898 X 2^(-126)
+./btest -f isNegOne -1 3
 
+Check the file README for documentation on running the btest program.
 
+dlc: This is a modified version of an ANSI C compiler from the MIT CILK group that you can use to check for compliance with the
+coding rules for each puzzle. The typical usage is:
 
+./dlc bits.c
+
+The program runs silently unless it detects a problem, such as an illegal operator, too many operators, or non-straightline code in the
+integer puzzles.  Running with the -e switch:
+
+./dlc -e bits.c  
+
+causes dlc to print counts of the number of operators used by each function. Type ./dlc -help for a list of command line options.
+
+ driver.pl: This is a driver program that uses btest and dlc to compute the correctness and performance points for
+your solution. It takes no arguments:
+
+ ./driver.pl
+
+Your instructors will use driver.pl to evaluate your solution.
+
+6. Handin Instructions
+
+Be sure to fill in the comments at the top of bits.c with your name and your teammate's name.  Push the changed bits.c file to the github repository before the due date:
+
+% git add bits.c
+% git commit -m "Modified bits.c"
+% git push origin main
+If you and you partner were both working on your own version of the bits.c file then you'll have merge conflicts, which you will need to resolve.  You will push your bits.c like above and then your partner will need to fetch, merge, edit the bits.c to resolve the conflicts, and then add, commit, and push.
+
+% git fetch origin
+% git merge origin/main
+<edit code to fix merge conflicts>
+% git add bits.c
+% git commit -m "Modified bits.c"
+% git push origin main
+
+7. Advice
+
+Don't include the <stdio.h> header file in your bits.c file, as it confuses dlc and results in some non-intuitive error messages. You will still be able to use printf in your  bits.c file for debugging without including the <stdio.h> header, although gcc will print a warning that you can ignore.
+The dlc program enforces a stricter form of C declarations than is the case for C++ or that is enforced by gcc.  In particular, any declaration must appear in a block (what you enclose in curly braces) before any statement that is not a declaration.  For example, it will complain about the following code:
+  int foo(int x)
+  {
+    int a = x;
+    a *= 3;     /* Statement that is not a declaration */
+    int b = a;  /* ERROR: Declaration not allowed here */
+  }
+
+9. The "Beat the Prof'' Contest
+
+For fun, we're offering an optional "Beat the Prof'' contest that allows you to compete with other students and the instructor to develop the most efficient puzzles. The goal is to solve each Data Lab puzzle using the fewest number of operators. Students who match or beat the instructor's operator count for each puzzle are winners!
+
+To submit your entry to the contest, type:
+
+  ./driver.pl -u "Your Nickname''
+
+Nicknames are limited to 35 characters and can contain alphanumerics, apostrophes, commas, periods, dashes, underscores, and ampersands. You can submit as often as you like. Your most recent submission will appear on a real-time scoreboard, identified only by your nickname. You can view the scoreboard by pointing your browser at
+
+    http://student2.cs.appstate.edu:15002
